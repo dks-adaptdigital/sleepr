@@ -13,6 +13,8 @@ async function bootstrap() {
   );
   app.useLogger(app.get(Logger));
 
-  await app.listen(3000);
+  const configService = app.get('ConfigService');
+
+  await app.listen(configService.get('PORT'));
 }
 bootstrap();
