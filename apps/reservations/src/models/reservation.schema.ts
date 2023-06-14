@@ -7,7 +7,7 @@ export class ReservationDocument extends AbstractDocument {
   timestamp: Date;
 
   @Prop()
-  startData: Date;
+  startDate: Date;
 
   @Prop()
   endDate: Date;
