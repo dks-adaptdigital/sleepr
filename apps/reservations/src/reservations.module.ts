@@ -22,6 +22,7 @@ import * as Joi from 'joi';
     LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: './apps/reservations/.env',
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
       }),
