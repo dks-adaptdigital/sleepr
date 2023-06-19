@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AuthModule } from './auth.module';
+import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
+import { AuthModule } from './auth.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
@@ -13,7 +14,7 @@ async function bootstrap() {
   );
   app.useLogger(app.get(Logger));
 
-  const configService = app.get('ConfigService');
+  const configService = app.get(ConfigService);
 
   await app.listen(configService.get('PORT'));
 }
