@@ -1,0 +1,28 @@
+import { Injectable } from '@nestjs/common';
+import Stripe from 'stripe';
+import { ConfigService } from '@nestjs/config';
+import { CreateChargeDto } from './dto/create-charge.dto';
+
+@Injectable()
+export class PaymentsService {
+  constructor(private readonly config: ConfigService) {}
+
+  private readonly stripe = new Stripe(this.config.get('STRIPE_SECRET_KEY'), {
+    apiVersion: '2022-11-15',
+  });
+
+  async createCharge({ card, amount }: CreateChargeDto) {
+    const paymentMethod = await this.stripe.paymentMethods.create({
+      type: 'card',
+      card,
+    });
+
+    return await this.stripe.paymentIntents.create({
+      payment_method: paymentMethod.id,
+      amount: amount * 100,
+      currency: 'gbp',
+      payment_method_types: ['card'],
+      confirm: true,
+    });
+  }
+}
